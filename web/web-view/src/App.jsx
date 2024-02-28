@@ -1,19 +1,17 @@
-import './App.css'
-import DataView from './components/dataview'
-function App() {
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
+import Dashboard from './pages/dashboard';
+import Access from './pages/access';
 
+function App() {
   return (
-    <>
-      <div className='dashboard'>
-      <div className='header'>
-      <h1>Motor de Busqueda de Correos Electronicos</h1>
-      </div>
-      <div className='tables'>
-      <DataView/>
-      </div> 
-      </div>
-    </>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<Access />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
+  );
 }
 
-export default App
+export default App;
