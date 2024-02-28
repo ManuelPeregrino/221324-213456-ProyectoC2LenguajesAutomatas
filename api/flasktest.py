@@ -6,13 +6,19 @@ import csv
 app = Flask(__name__)
 
 CORS(app)
+csv_file_path = 'api/datospersonales.csv'
 
-email_list = ["hotmail"], ["yahoo"], ["gmail"], ["msn"]
+email_list = []
 
-@app.route('/get-matching-emails-hotmail')
+with open(csv_file_path, mode='r', encoding="utf8") as file:
+    csv_reader = csv.reader(file)
+    for row in csv_reader:
+        email_Data = row[2]  # Assuming the email is in the third column
+        email_list.append(email_Data)
+
+@app.route('/get-matching-emails')
 def get_matching_emails_hotmail():
-    email_pattern = r'\b[A-Za-z0-9._%+-]+@({})\.com\b'.format('|'.join(map(re.escape, email_list[0])))
-    csv_file_path = 'api/datospersonales.csv'
+    email_pattern = r'\b'.format('|'.join(map(re.escape, email_list)))
     matching_rows = []
 
     try:
@@ -28,62 +34,6 @@ def get_matching_emails_hotmail():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-@app.route('/get-matching-emails-yahoo')
-def get_matching_emails_yahoo():
-    email_pattern = r'\b[A-Za-z0-9._%+-]+@({})\.com\b'.format('|'.join(map(re.escape, email_list[1])))
-    csv_file_path = 'api/datospersonales.csv'
-    matching_rows = []
-
-    try:
-        with open(csv_file_path, mode='r', encoding="utf8") as file:
-            csv_reader = csv.reader(file)
-            for row in csv_reader:
-                email = row[2]  # Assuming the email is in the third column
-                if re.match(email_pattern, email):
-                    matching_rows.append(row)
-        return jsonify(matching_rows)
-    except FileNotFoundError:
-        return jsonify({"error": "File not found"}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
     
-@app.route('/get-matching-emails-gmail')
-def get_matching_emails_gmail():
-    email_pattern = r'\b[A-Za-z0-9._%+-]+@({})\.com\b'.format('|'.join(map(re.escape, email_list[2])))
-    csv_file_path = 'api/datospersonales.csv'
-    matching_rows = []
-
-    try:
-        with open(csv_file_path, mode='r', encoding="utf8") as file:
-            csv_reader = csv.reader(file)
-            for row in csv_reader:
-                email = row[2]  # Assuming the email is in the third column
-                if re.match(email_pattern, email):
-                    matching_rows.append(row)
-        return jsonify(matching_rows)
-    except FileNotFoundError:
-        return jsonify({"error": "File not found"}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-@app.route('/get-matching-emails-msn')
-def get_matching_emails_msn():
-    email_pattern = r'\b[A-Za-z0-9._%+-]+@({})\.com\b'.format('|'.join(map(re.escape, email_list[3])))
-    csv_file_path = 'api/datospersonales.csv'
-    matching_rows = []
-
-    try:
-        with open(csv_file_path, mode='r', encoding="utf8") as file:
-            csv_reader = csv.reader(file)
-            for row in csv_reader:
-                email = row[2]  # Assuming the email is in the third column
-                if re.match(email_pattern, email):
-                    matching_rows.append(row)
-        return jsonify(matching_rows)
-    except FileNotFoundError:
-        return jsonify({"error": "File not found"}), 404
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
 if __name__ == '__main__':
     app.run(debug=True)

@@ -9,10 +9,7 @@ function DataView() {
   const [emailProvider, setEmailProvider] = useState('hotmail'); // Default to 'hotmail'
 
   const fetchLinks = {
-    msn: "http://127.0.0.1:5000/get-matching-emails-msn",
-    gmail: "http://127.0.0.1:5000/get-matching-emails-gmail",
-    hotmail: "http://127.0.0.1:5000/get-matching-emails-hotmail",
-    yahoo: "http://127.0.0.1:5000/get-matching-emails-yahoo"
+    hotmail: "http://127.0.0.1:5000/get-matching-emails",
   };
 
   useEffect(() => {
@@ -53,10 +50,7 @@ function DataView() {
     <div>
       <div className="search-input">
       <select onChange={handleProviderChange} value={emailProvider}>
-        <option value="msn">MSN</option>
-        <option value="gmail">Gmail</option>
-        <option value="hotmail">Hotmail</option>
-        <option value="yahoo">Yahoo</option>
+        <option value="hotmail">Correo Electronico</option>
       </select>
       <input
         type="text"
